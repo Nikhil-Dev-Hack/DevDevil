@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DevDevil.Models;
+using DevDevil.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevDevil.Controllers
@@ -14,13 +15,15 @@ namespace DevDevil.Controllers
 
         public PieController(IPieRepository pieRepository, ICategoryRepository categoryRepository)
         {
-            _pieRepository = pieRepository;
-            _categoryRepository = categoryRepository;
+            _pieRepository = pieRepository ?? throw new ArgumentNullException(nameof(pieRepository));
+            _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(categoryRepository));
         }
         
         public ViewResult List()
         {
-            return View(_pieRepository.AllPies);
+            PiesListViewModel piesListViewModel = new PiesListViewModel();
+            piesListViewModel.Pies = _pieRepository.AllPies;
+            return View(piesListViewModel);
         }
     }
 }
