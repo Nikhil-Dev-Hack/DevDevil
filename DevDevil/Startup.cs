@@ -27,10 +27,12 @@ namespace DevDevil
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddDbContext<AppDbContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer());
-            services.AddScoped<IPieRepository, MockPieRepository>();
-            services.AddScoped<ICategoryRepository, MockCategoryRepository>();
+            options.UseSqlServer(Configuration.GetConnectionString("SecondConnection")));
+            services.AddScoped<IPieRepository, PieRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             //services.AddTransient();
             services.AddHttpContextAccessor();
             services.AddSession();
